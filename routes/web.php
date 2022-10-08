@@ -29,6 +29,9 @@ Route::get('login',[HomeController::class, 'login']);
 
 //Blog Laravel
 Route::get('blog-laravel',[BlogLaravelController::class, 'index']);
+Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);
+Route::post('create-blog',[BlogLaravelController::class, 'store']);
+
 
 
 
