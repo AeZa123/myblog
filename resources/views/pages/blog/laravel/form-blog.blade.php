@@ -1,4 +1,4 @@
-@extends('layouts.main_template')
+@extends('layouts.main_template-bs3')
 @section('title')
     From Blog
 @endsection
