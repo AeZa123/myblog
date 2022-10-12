@@ -12,7 +12,8 @@ class BlogLaravelController extends Controller
     public function index()
     {
 
-        $blogs = DB::table('blogs')->get(['id','title']);
+        // $blogs = DB::table('blogs')->get(['id','title'])->paginate(5);
+        $blogs = DB::table('blogs')->select('id','title','created_at')->orderByDesc('created_at')->paginate(3);
         // dd($blogs);
 
         return view('pages.blog.laravel.showList-blog-laravel', compact('blogs'));
