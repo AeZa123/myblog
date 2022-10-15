@@ -3,44 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Blog;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 
 class BlogLaravelController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+  
+
+
+
     public function index()
     {
-
-        // $blogs = DB::table('blogs')->get(['id','title'])->paginate(5);
-        $blogs = DB::table('blogs')->select('id','title','created_at')->orderByDesc('created_at')->paginate(3);
-        // dd($blogs);
-
-        return view('pages.blog.laravel.showList-blog-laravel', compact('blogs'));
-    }
-
-    public function showBlog($id) 
-    {
-        $blog = DB::table('blogs')->where('id', $id)->get();
-        // $date = $blog[0]->created_at->format('d-m-Y');
-        // dd($date);
-        
-        // dd($blog);
-
-        return view('pages.blog.laravel.ShowBlog', compact('blog'));
+        $blogs = DB::table('blogs')->select('id','title','created_at')->get();
+        return view('dashboard.pages.laravel.show', compact('blogs'));
     }
 
 
-
-    public function createBlog()
+ 
+    public function create()
     {
-        return view('pages.blog.laravel.form-blog');
+       
+        $group_blogs = DB::table('group_blogs')->get();
+
+        return view('pages.blog.laravel.form-blog', compact('group_blogs'));
     }
 
     public function store(Request $request)
     {
-        $blog = $request->all();
-        Blog::create($blog);
+
+        
+        $name_group = DB::table('group_blogs')->where('name_group', $request->group_blog)->first('id');
+        // dd($name_group->id);
+        
+        $data = array(
+                'title' => $request->title,
+                'description' => $request->description,
+                'group_blog_id' => $name_group->id,
+            );
+    
+        DB::table('blogs')->insert($data);
+
 
         return redirect('blog-laravel');
     }

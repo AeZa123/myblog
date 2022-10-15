@@ -7,9 +7,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link"href="{{ url('blog-laravel') }}">test blog</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
               <a class="nav-link"href="{{ url('/') }}">Home</a>
             </li>
@@ -23,7 +23,14 @@
               <a class="nav-link"href="{{ url('contact') }}">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"href="{{ url('login') }}">Login</a>
+              @if (Auth::user())
+                <a class="nav-link"href="{{ url('dashboard') }}">Dashboard</a>
+              @else
+                <a class="nav-link"href="{{ url('login') }}">login</a>
+                
+              @endif
+              
+
             </li>
         </ul>
        

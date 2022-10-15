@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogLaravelController;
+use App\Http\Controllers\dashboard\DashBoardBlogLaravelController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,25 +21,36 @@ use App\Http\Controllers\BlogLaravelController;
 //     return view('welcome');
 // });
 
-
-Route::get('/',[HomeController::class, 'home']);
+// public link
+Route::get('/',[HomeController::class, 'index']);
 Route::get('about',[HomeController::class, 'about']);
 Route::get('service',[HomeController::class, 'service']);
 Route::get('contact',[HomeController::class, 'contact']);
 Route::get('login',[HomeController::class, 'login']);
 
-
 //Blog Laravel
-Route::get('blog-laravel',[BlogLaravelController::class, 'index']);
-Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);
-Route::get('showBlog/{id}',[BlogLaravelController::class, 'showBlog']);
+Route::get('blog-laravel',[HomeController::class, 'blog']);
+Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
+
+
+
+
+
+    
+    
+// private link
+
+//dashboard
+Route::get('dashboard',[DashBoardBlogLaravelController::class, 'dashboard']);
+Route::get('table/laravel',[BlogLaravelController::class, 'index']);
+Route::get('form/laravel/blog',[BlogLaravelController::class, 'create'])->name('laravelblog');
 Route::post('create-blog',[BlogLaravelController::class, 'store']);
 
 
+// Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);
 
 
-//สร้างเงื่อนไขตรวจสอบ name ใน url
-// Route::get('/test/{name}', function ($name) {
-//     return $name;
-// })->where('name', '[A-Za-z]+');
 
+Auth::routes();
+
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

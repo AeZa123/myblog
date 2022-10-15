@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('description');
+            $table->string('group_blog_id');
             $table->timestamps();
         });
     }
