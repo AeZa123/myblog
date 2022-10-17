@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\dashboard\LaravelBlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BlogLaravelController;
-use App\Http\Controllers\dashboard\DashBoardBlogLaravelController;
+// use App\Http\Controllers\BlogLaravelController;
+use App\Http\Controllers\dashboard\DashboardController;
+
+// use App\Http\Controllers\dashboard\DashBoardBlogLaravelController;
+
 
 
 /*
@@ -41,10 +45,10 @@ Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
 // private link
 
 //dashboard
-Route::get('dashboard',[DashBoardBlogLaravelController::class, 'dashboard']);
-Route::get('table/laravel',[BlogLaravelController::class, 'index']);
-Route::get('form/laravel/blog',[BlogLaravelController::class, 'create'])->name('laravelblog');
-Route::post('create-blog',[BlogLaravelController::class, 'store']);
+Route::get('dashboard',[DashboardController::class, 'index']);
+Route::get('table/laravel',[LaravelBlogController::class, 'index']);
+Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
+Route::post('store/laravel',[LaravelBlogController::class, 'store']);
 
 
 // Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);

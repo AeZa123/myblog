@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\dashboard;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Blog;
 
-class BlogLaravelController extends Controller
+
+
+
+
+class LaravelBlogController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware('auth');
     }
-  
-
 
 
     public function index()
@@ -22,15 +26,14 @@ class BlogLaravelController extends Controller
         return view('dashboard.pages.laravel.show', compact('blogs'));
     }
 
-
- 
     public function create()
     {
        
         $group_blogs = DB::table('group_blogs')->get();
 
-        return view('pages.blog.laravel.form-blog', compact('group_blogs'));
+        return view('dashboard.pages.laravel.form-blog', compact('group_blogs'));
     }
+
 
     public function store(Request $request)
     {
@@ -45,9 +48,25 @@ class BlogLaravelController extends Controller
                 'group_blog_id' => $name_group->id,
             );
     
-        DB::table('blogs')->insert($data);
+        // DB::table('blogs')->insert($data);
+        Blog::create($data);
 
 
-        return redirect('blog-laravel');
+        return redirect('table/laravel');
     }
+
+    
+    public function show($id)
+    {
+        // return 
+    }
+
+    public function edit($id)
+    {
+        return "edit";
+    }
+
+
+
+
 }

@@ -19,7 +19,7 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-md-9">
-            <a href="{{ url('form-blog') }}" class="btn btn-primary text-center" style="float: right">Create Blog</a>
+           
             <h1>Show blog laravel</h1>
 
             @foreach ($blogs as $blog)

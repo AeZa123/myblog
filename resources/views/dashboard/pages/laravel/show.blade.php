@@ -43,7 +43,7 @@
                                         @foreach ($blogs as $blog)
                                             <tr>
                                                 <th scope="row">{{$blog->id}}</th>
-                                                <td>{{$blog->title}}</td>
+                                                <td><a href="{{url('showBlog/'.$blog->id)}}" target="_bank">{{$blog->title}} </a></td>
                                                 {{-- <td>{{$blog->created_at}}</td> --}}
                                                 <td>
                                                     <i class="ti-pencil-alt pr-2"></i>
@@ -52,7 +52,7 @@
                                             </tr>
                                             
                                         @endforeach
-                                       
+                                        {{-- <a class="display-6" href="{{url('showBlog/'.$blog->id)}}" target="_bank">{{$blog->title}}</a> --}}
                                         
                                     </tbody>
                                 </table>

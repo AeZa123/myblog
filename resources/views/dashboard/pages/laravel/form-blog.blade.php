@@ -10,7 +10,7 @@
         <div class="row justify-content-md-center">
             <div class="col-md-9">
                 <h1 class="text-danger">Create Blog</h1><hr>
-                <form action="{{ url('create-blog') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('store/laravel') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label for="">Title</label>
                     <input type="text" class="form-control" name="title" required>
