@@ -33,7 +33,7 @@ Route::get('contact',[HomeController::class, 'contact']);
 Route::get('login',[HomeController::class, 'login']);
 
 //Blog Laravel
-Route::get('blog-laravel',[HomeController::class, 'blog']);
+Route::get('blog-laravel',[HomeController::class, 'blog'])->name('blog-laravel');
 Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
 
 
@@ -47,6 +47,8 @@ Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
 //dashboard
 Route::get('dashboard',[DashboardController::class, 'index']);
 Route::get('table/laravel',[LaravelBlogController::class, 'index']);
+Route::get('blog/laravel/edit/{id}',[LaravelBlogController::class, 'edit']);
+Route::get('table/laravel/search',[LaravelBlogController::class, 'search']);
 Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
 Route::post('store/laravel',[LaravelBlogController::class, 'store']);
 

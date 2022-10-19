@@ -1,7 +1,6 @@
 @extends('dashboard.layouts.layout_dashboard')
 
 @section('head')
-<meta name="_token" content="{{ csrf_token() }}">
 
 
 @endsection
@@ -12,13 +11,17 @@ table blog laravel
 
 
 @section('content')
-{{-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 
     <div class="main-content-inner">
         <br>
-        <h1>Manage Blog Laravel</h1>
+        <h1>Table Blog Laravel</h1>
+        
+       
 
         <div class="row">    
             
@@ -30,14 +33,7 @@ table blog laravel
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mt-2" style="float: left">Table Blog Laravel</h4>
-                        <div class="search-box pull-right mb-3">
-                            <form action="#">
-                                <input type="text" id="search" name="search" placeholder="Search..." required>
-                                <i class="ti-search"></i>
-                                {{-- <input type="text" id="search" name="search"> --}}
-                            </form>
-                        </div>
+                        <h4 class="header-title">All Blog Laravel</h4>
                         <div class="single-table">
                             <div class="table-responsive">
                                 <table class="table text-center">
@@ -45,8 +41,6 @@ table blog laravel
                                         <tr class="text-white">
                                             <th scope="col">ID</th>
                                             <th scope="col">Title</th>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">created at</th>
                                             <th scope="col">action</th>
                                         </tr>
                                     </thead>
@@ -55,22 +49,15 @@ table blog laravel
                                             <tr>
                                                 <th scope="row">{{$blog->id}}</th>
                                                 <td><a href="{{url('showBlog/'.$blog->id)}}" target="_bank">{{$blog->title}} </a></td>
-                                                <td>{{$blog->category}}</td>
-                                                <td>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y')  }}</td>
+                                                {{-- <td>{{$blog->created_at}}</td> --}}
                                                 <td>
-                                                    <a href="{{url('blog/laravel/edit/'.$blog->id)}}">
-                                                        <i class="ti-pencil-alt pr-3 text-warning" title="Edit"></i>
-                                                    </a>
-                                                    <a href="">
-                                                        <i class="ti-trash text-danger" title="Delete"></i>
-                                                    </a>
+                                                    <i class="ti-pencil-alt pr-2"></i>
+                                                    <i class="ti-trash"></i>
                                                 </td>
                                             </tr>
                                             
                                         @endforeach
                                         {{-- <a class="display-6" href="{{url('showBlog/'.$blog->id)}}" target="_bank">{{$blog->title}}</a> --}}
-                                        
-                                       
                                         
                                     </tbody>
                                 </table>
@@ -92,49 +79,52 @@ table blog laravel
 
 
 
+        <hr>
+        <div class="container mt-5">
+            <h2 class="mb-4">Laravel 7|8 Yajra Datatables Example</h2>
+            <table class="table table-bordered test">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>title</th>
+                        <th>created_at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
     </div>
 
 
-
-
-
-
-
-
-
-
-   
-        <script type="text/javascript">
-            $('#search').on('keyup',function(){
-                $value=$(this).val();
-                $.ajax({
-                    type : 'get',
-                    url : '{{URL::to('table/laravel/search')}}',
-                    data:{'search':$value},
-                    success:function(data){
-                        $('tbody').html(data);
-                        // console.log(data);
-                    }
-                });
-            })
-        </script>
-
-        <script type="text/javascript">
-            $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-        </script>
+    <script type="text/javascript">
+        $(function () {
+          var table = $('.test').DataTable({
+              processing: true,
+              serverSide: true,
+              ajax: "/blog-laravel",
+              columns: [
+                  {data: 'id', name: 'id'},
+                  {data: 'title', name: 'title'},
+                  {data: 'created_at', name: 'created_at'},
+                  {data: 'action', name: 'action', orderable: false, searchable: false},
+              ]
+          });
+        });
         
-
-
-
-
-
-
-
-
-
-
-
-   
+      </script>
+    
+    
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     
     @endsection
     

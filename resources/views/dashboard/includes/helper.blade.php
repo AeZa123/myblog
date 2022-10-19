@@ -1,3 +1,5 @@
+ 
+ {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> --}}
  <!-- header area start -->
  <div class="header-area">
     <div class="row align-items-center">
@@ -10,8 +12,9 @@
             </div>
             <div class="search-box pull-left">
                 <form action="#">
-                    <input type="text" name="search" placeholder="Search..." required>
-                    <i class="ti-search"></i>
+                    {{-- <input type="text" id="search" name="search" placeholder="Search..." required> --}}
+                    {{-- <i class="ti-search"></i> --}}
+                    {{-- <input type="text" id="search" name="search"> --}}
                 </form>
             </div>
         </div>
@@ -191,3 +194,22 @@
         </div>
     </div>
 </div> --}}
+
+{{-- <script type="text/javascript">
+    $('#search').on('keyup',function(){
+        $value=$(this).val();
+        $.ajax({
+            type : 'get',
+            url : '{{URL::to('table/laravel/search')}}',
+            data:{'search':$value},
+            success:function(data){
+                $('tbody').html(data);
+                // console.log(data);
+            }
+        });
+    })
+</script>
+
+<script type="text/javascript">
+    $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script> --}}

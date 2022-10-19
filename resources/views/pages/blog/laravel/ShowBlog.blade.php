@@ -7,6 +7,7 @@
 @section('content')
 
 
+
     <div class="container">
 
         <h1 class="display-1">{{ $blog[0]->title }}</h1><hr>
