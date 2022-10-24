@@ -46,11 +46,12 @@ Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
 
 //dashboard
 Route::get('dashboard',[DashboardController::class, 'index']);
-Route::get('table/laravel',[LaravelBlogController::class, 'index']);
+Route::get('table/laravel',[LaravelBlogController::class, 'index'])->name('table-laravel');
 Route::get('blog/laravel/edit/{id}',[LaravelBlogController::class, 'edit']);
 Route::get('table/laravel/search',[LaravelBlogController::class, 'search']);
 Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
 Route::post('store/laravel',[LaravelBlogController::class, 'store']);
+Route::post('update/laravel/{id}',[LaravelBlogController::class, 'update']);
 
 
 // Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);

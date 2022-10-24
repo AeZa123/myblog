@@ -56,6 +56,27 @@ class LaravelBlogController extends Controller
     public function store(Request $request)
     {
 
+
+
+        $validator = \Validator::make($request->all(),[
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'category' => 'required|string',
+           
+        ],
+        [
+            'title.required'=>'กรุณาใส่ชื่อเรื่อง',
+            'description.required'=>'กรุณาใส่เนื้อหา',
+            'category.required'=>'กรุณาเลือกหมวดหมู่',
+           
+        ]);
+
+        //ถ้า validate ไม่ผ่านให้ส่ง error ไป  แต่ถ้าผ่านให้ทำการบันทึกข้อมูลลง database
+        if(!$validator->passes()){
+            return response()->json(['code'=>0,'error'=>$validator->errors()->toArray()]);
+
+        }
+
         
         $data = array(
                 'title' => $request->title,
@@ -67,7 +88,8 @@ class LaravelBlogController extends Controller
         Blog::create($data);
 
 
-        return redirect('table/laravel');
+        // return redirect('table/laravel');
+        return response()->json(['code'=>1,'msg'=>'ได้ทำการเพิ่มข้อมูลเรียบร้อยแล้ว']);
     }
 
     
@@ -84,11 +106,51 @@ class LaravelBlogController extends Controller
         return view('dashboard.pages.laravel.edit', compact('blog'));
     }
 
+    public function update(Request $request, $id)
+    {
+
+        $validator = \Validator::make($request->all(),[
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'category' => 'required|string',
+           
+        ],
+        [
+            'title.required'=>'กรุณาใส่ชื่อเรื่อง',
+            'description.required'=>'กรุณาใส่เนื้อหา',
+            'category.required'=>'กรุณาเลือกหมวดหมู่',
+           
+        ]);
+
+        //ถ้า validate ไม่ผ่านให้ส่ง error ไป  แต่ถ้าผ่านให้ทำการบันทึกข้อมูลลง database
+        if(!$validator->passes()){
+            return response()->json(['code'=>0,'error'=>$validator->errors()->toArray()]);
+
+        }
+
+
+        $data = array(
+            'title' => $request->title,
+            'description' => $request->description,
+            'category' => $request->category
+        );
+
+        $updated = Blog::where('id',$id)->update($data);
+
+        return response()->json(['code'=>1,'msg'=>'ได้ทำการแก้ไขข้อมูลเรียบร้อยแล้ว']);
+
+
+
+    }
+
 
 
 
     public function search(Request $request)
     {
+
+        // dd($request->show);
+        // return $request->show;
         if($request->ajax())
         {
             $output="";

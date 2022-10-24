@@ -31,7 +31,10 @@ table blog laravel
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mt-2" style="float: left">Table Blog Laravel</h4>
+                       
+                        
                         <div class="search-box pull-right mb-3">
+                            
                             <form action="#">
                                 <input type="text" id="search" name="search" placeholder="Search..." required>
                                 <i class="ti-search"></i>
@@ -117,6 +120,20 @@ table blog laravel
                     }
                 });
             })
+
+
+            // $('#show').on('keyup',function(){
+            //     $value=$(this).val();
+            //     $.ajax({
+            //         type : 'get',
+            //         url : '{{URL::to('table/laravel/search')}}',
+            //         data:{'search':$value},
+            //         success:function(data){
+            //             $('tbody').html(data);
+            //             console.log(data);
+            //         }
+            //     });
+            // })
         </script>
 
         <script type="text/javascript">
