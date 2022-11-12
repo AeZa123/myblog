@@ -33,8 +33,10 @@ Route::get('contact',[HomeController::class, 'contact']);
 Route::get('login',[HomeController::class, 'login']);
 
 //Blog Laravel
-Route::get('blog-laravel',[HomeController::class, 'blog'])->name('blog-laravel');
+Route::get('blog-laravel',[HomeController::class, 'blogLavavel'])->name('blogs.laravel');
+Route::get('blog-html',[HomeController::class, 'blogHtml'])->name('blogs.html');
 Route::get('showBlog/{id}',[HomeController::class, 'showBlog']);
+Route::get('search',[HomeController::class, 'search']);
 
 
 
@@ -52,6 +54,7 @@ Route::get('table/laravel/search',[LaravelBlogController::class, 'search']);
 Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
 Route::post('store/laravel',[LaravelBlogController::class, 'store']);
 Route::post('update/laravel/{id}',[LaravelBlogController::class, 'update']);
+Route::post('blog/destroy',[LaravelBlogController::class, 'destroy'])->name('destroy');
 
 
 // Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);
@@ -61,3 +64,9 @@ Route::post('update/laravel/{id}',[LaravelBlogController::class, 'update']);
 Auth::routes();
 
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+//test
+Route::get('/blogs/test/infinityScroll',[HomeController::class,'lazyload']);
+Route::get('/blogs/test/infinityScroll/test',[HomeController::class,'getBlogs'])->name('test');

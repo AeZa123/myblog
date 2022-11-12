@@ -4,7 +4,9 @@
     <div class="sidebar-menu">
         <div class="sidebar-header">
             <div class="logo">
-                <a href="index.html"><img src="{{ asset('assets-dashboard/images/icon/logo.png') }}" alt="logo"></a>
+                {{-- <a href="index.html"><img src="{{ asset('assets-dashboard/images/icon/logo.png') }}" alt="logo"></a> --}}
+                <h1 class="text-white">MyBlog</h1>
+
             </div>
         </div>
         <div class="main-menu">

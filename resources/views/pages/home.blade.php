@@ -5,124 +5,108 @@
 @endsection
 
 @section('content')
+<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner"> <!-- รูปสไลด์ หารูปโปรเจคที่ทำมาลงไว้ -->
-      <div class="carousel-item active">
-        <img src="{{ asset('assets/images/slide1.jpg') }}" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('assets/images/slide2.jpg') }}" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('assets/images/slide3.jpg') }}" class="d-block w-100" alt="...">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-</div>
 
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <div class="border border-2 rounded">
-          <i class="fas fa-home fa-3x text-success mb-3"></i>
-          <h2 class="head-title">Projects</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex minima quasi ipsa voluptas non ab tenetur, 
-            culpa atque voluptatum sequi eaque distinctio doloribus iusto quidem qui reprehenderit eum necessitatibus 
-            blanditiis!</p>
-        </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div class="border border-2 rounded">
-          <i class="fas fa-concierge-bell fa-3x text-warning mb-3"></i>
-          <h2 class="head-title">About</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex minima quasi ipsa voluptas non ab tenetur, 
-            culpa atque voluptatum sequi eaque distinctio doloribus iusto quidem qui reprehenderit eum necessitatibus 
-            blanditiis!</p>
-        </div>
-      </div>
-      <div class="col-md-4 text-center">
-        <div class="border border-2 rounded">
-          <i class="fas fa-cloud-showers-heavy fa-3x text-danger mb-3"></i>
-          <h2 class="head-title">Contact</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex minima quasi ipsa voluptas non ab tenetur, 
-            culpa atque voluptatum sequi eaque distinctio doloribus iusto quidem qui reprehenderit eum necessitatibus 
-            blanditiis!</p>
-        </div>
-      </div>
-    </div>
-  </div>
+{{-- <br> --}}
 
-  <div class="container mt-5">
-    <h2>Blog</h2>
-    <hr>
-    <div class="row">
-      {{-- <div class="col-md-3 mt-2">
-        <div class="card" style="width: 18rem;">
-          <img src="{{ asset('assets/images/iqoption/bg-iqoption.jpg') }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h4 class="card-text">Bot Iqoption & Signal</h4>
-            <p>อัพเดต signal ทุกวัน ไม่เว้นวันหยุด</p>
-          </div>
-        </div>
-      </div> --}}
-      <div class="col-md-3 mt-2">
 
-        <a href="{{ url('blog-laravel') }}">
-          <div class="card" style="width: 18rem;">
-            <img src="{{ asset('assets/images/laravel/bg-laravel.png') }}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h4 class="card-text">Laravel</h4>
-            </div>
-          </div>
-        </a>
+<div class="d-flex align-items-center pt-5 pb-5 bg-head" >
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 d-flex flex-column">
+        <h1 class="display-1 text-center text-green-style">MyBlog</h1>
+        <h4 class="text-center mt-5 text-green-style">เว็บที่จะช่วยให้คุณได้ฝึกทักการเขียนโปรแกรม Web Applications ด้วยภษาต่างๆเช่น php, javascript, html, css, เป็นต้น</h4>
         
       </div>
-      <div class="col-md-3 mt-2">
-        <div class="card" style="width: 18rem;">
-          <img src="{{ asset('assets/images/html/bg-html.png') }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h4 class="card-text">Basic HTML</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2">
-        <div class="card" style="width: 18rem;">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h4 class="card-text">Basic CSS</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 mt-2">
-        <div class="card" style="width: 18rem;">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h4 class="card-text">Jquery</h4>
-          </div>
-        </div>
-      </div>
+      
     </div>
 
+  </div>
+</div>
+<br>
+<br>
 
+<br>
+<br>
 
+<section id="services" class="services">
+  <div class="container aos-init aos-animate" data-aos="fade-up">
+    
 
+    <div class="section-title">
+      <h2>Tutorials</h2>
+      {{-- <p>Check our Services</p> --}}
+    </div>
 
+    <div class="row">
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+        <a href="{{route('blogs.html')}}">
+        <div class="icon-box">
+          <div class="icon"><i class="bx bxl-html5 bx-lg text-white"></i></div>
+          <h4>HTML</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus veritatis nulla consequuntur accusantium! Fuga, nesciunt expedita! Animi nisi sint hic eligendi rem voluptate, consequuntur natus mollitia culpa vitae esse quo?</p>
+        </div>
+      </a>
+      </div>
 
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="200">
+        <a href="">
+        <div class="icon-box">
+          <div class="icon"><i class="bx bxl-css3 bx-lg text-white"></i></div>
+          <h4>CSS</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam rerum natus omnis aliquid ut atque dolor dolores ullam. Error quasi facere omnis optio voluptate reiciendis consequatur facilis labore adipisci vel.</p>
+        </div>
+      </a>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="300">
+        <a href="">
+        <div class="icon-box">
+          <div class="icon"><i class="bx bxl-javascript bx-lg text-white"></i></div>
+          <h4>Javascript</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam rerum natus omnis aliquid ut atque dolor dolores ullam. Error quasi facere omnis optio voluptate reiciendis consequatur facilis labore adipisci vel.</p>
+        </div>
+      </a>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+        <a href="{{route('blogs.laravel')}}">
+        <div class="icon-box">
+          <div class="icon"><i class="fab fa-laravel fa-5x text-white"></i></div>
+          <h4>Laravel</h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis cupiditate nulla hic nisi delectus, quaerat praesentium, odit iste officia incidunt quod. Saepe excepturi explicabo repudiandae voluptatibus dolore laboriosam eos modi.</p>
+        </div>
+      </a>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="200">
+        <a href="">
+        <div class="icon-box">
+          <div class="icon"><i class="bx bxl-vuejs bx-lg text-white"></i></div>
+          <h4>Vue.js</h4>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus provident nam, magni quis eligendi sapiente cumque consectetur libero temporibus exercitationem. Dolore aperiam quod tempore praesentium quis dolorum harum excepturi quisquam!</p>
+        </div>
+        </a>
+      </div>
+
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="300">
+        <a href="">
+        <div class="icon-box">
+          <div class="icon"><i class="bx bx-code-alt bx-lg text-white"></i></div>
+          <h4>Other</h4>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus provident nam, magni quis eligendi sapiente cumque consectetur libero temporibus exercitationem. Dolore aperiam quod tempore praesentium quis dolorum harum excepturi quisquam!</p>
+        </div>
+      </a>
+      </div>
+
+    </div>
 
   </div>
+</section>
+
+
+  
     
 @endsection
 

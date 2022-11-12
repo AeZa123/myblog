@@ -144,6 +144,29 @@ class LaravelBlogController extends Controller
     }
 
 
+    public function destroy(Request $request)
+    {
+       
+
+
+        // return 'delete data';
+
+        $data = Blog::where('id',$request->id)->delete();
+        if($data){
+            return response()->json(['code'=>1,'msg'=>'ได้ทำการลบข้อมูลเรียบร้อยแล้ว']);
+        }else{
+            return response()->json(['code'=>0,'msg'=>'ลบข้อมูลไม่สำเร็จ']);
+            
+        }
+
+        // return response()->json(['code'=>1,'msg'=>'ได้ทำการลบข้อมูลเรียบร้อยแล้ว']);
+        // return response('Post deleted successfully.', 200);
+
+        // return $employees;
+
+    }
+
+
 
 
     public function search(Request $request)
@@ -171,7 +194,7 @@ class LaravelBlogController extends Controller
                         '<i class="ti-pencil-alt pr-3 text-warning"></i>'.
                         '</a>'.
 
-                        '<a'.' '.'href="'.url('showBlog/'.$blog->id).'"title="Delete">'.
+                        '<a'.' '.'href="#" data-id="'.$blog->id.'" id="deleteBtn" title="Delete">'.
                         '<i class="ti-trash text-danger"></i>'.
                         '</a>'.
                         

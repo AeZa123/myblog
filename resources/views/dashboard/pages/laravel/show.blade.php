@@ -14,6 +14,8 @@ table blog laravel
 @section('content')
 {{-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
 
 
     <div class="main-content-inner">
@@ -61,12 +63,21 @@ table blog laravel
                                                 <td>{{$blog->category}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y')  }}</td>
                                                 <td>
-                                                    <a href="{{url('blog/laravel/edit/'.$blog->id)}}">
+                                                    {{-- <a href="{{url('blog/laravel/edit/'.$blog->id)}}">
                                                         <i class="ti-pencil-alt pr-3 text-warning" title="Edit"></i>
-                                                    </a>
-                                                    <a href="">
-                                                        <i class="ti-trash text-danger" title="Delete"></i>
-                                                    </a>
+                                                    </a> --}}
+                                                   
+                                                        <a href="{{url('blog/laravel/edit/'.$blog->id)}}">
+                                                            <i class="ti-pencil-alt pr-3 text-warning" title="Edit"></i>
+                                                        </a>
+                                                        <a href="#" data-id="{{ $blog->id }}" id="deleteBtn">
+                                                            <i class="ti-trash text-danger" title="Delete"></i>
+                                                        </a>
+                                                        
+                                                        {{-- <button  data-id="{{ $blog->id }}" class="btn btn-danger btn-sm bg-white border-0">
+                                                            <i class="ti-trash text-danger" title="Delete"></i>
+                                                        </button> --}}
+                                                    
                                                 </td>
                                             </tr>
                                             
@@ -122,31 +133,85 @@ table blog laravel
             })
 
 
-            // $('#show').on('keyup',function(){
-            //     $value=$(this).val();
-            //     $.ajax({
-            //         type : 'get',
-            //         url : '{{URL::to('table/laravel/search')}}',
-            //         data:{'search':$value},
-            //         success:function(data){
-            //             $('tbody').html(data);
-            //             console.log(data);
-            //         }
-            //     });
-            // })
+
+            //--------------------------
+            // delete data
+            //--------------------------
+            $(document).on('click','#deleteBtn', function(){
+                var id = $(this).data('id');
+                var url = '{{route("destroy")}}';
+
+                
+                Swal.fire({
+                    title: 'ลบข้อมูล',
+                    text: "ต้องการลบข้อมูลนี้หรือไม่!",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'ตกลง',
+                    cancelButtonText: 'ยกเลิก'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            headers:{
+                                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+                            },
+                            url:url,
+                            method:'POST',
+                            data:{
+                                id:id
+                            },
+                            dataType:'json',
+                            success:function(data){
+                                if(data.code == 1){
+
+                                    setInterval(changePage, 2500);
+                                
+                                    function changePage() {
+                                        document.location.href="{!! route('table-laravel') !!}"
+                                    }
+
+                                    Swal.fire(
+                                        'สำเร็จ!',
+                                        data.msg,
+                                        'success',
+                                       
+                                    )
+
+                                }else{
+
+                                    Swal.fire(
+                                        'ไม่สำเร็จ',
+                                        data.msg,
+                                        'error'
+                                    )
+
+                                }
+                            }
+                        })
+                    }
+
+                    })
+
+            })
+
+
+
+
+
+
+
+           
         </script>
 
         <script type="text/javascript">
-            $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+            // $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+
+
         </script>
-        
-
-
-
-
-
-
-
 
 
 
