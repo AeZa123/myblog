@@ -1,6 +1,7 @@
 <div class="" >
   {{-- <nav class="navbar navbar-expand-lg navbar-light opacity-75 iBannerFix" style="background-color: rgb(2, 131, 2);"> --}}
-  <nav class="navbar navbar-expand-lg navbar-light iBannerFix" style="background-color: #73c088;">
+  {{-- <nav class="navbar navbar-expand-lg navbar-light iBannerFix" style="background-color: #73c088;"> --}}
+  <nav class="navbar navbar-expand-lg navbar-light iBannerFix" style="background-color: #0a2339;">
     <a style="padding-left: 1.5%;" class="navbar-brand text-white" href="{{ url('/') }}">MyBlog</a>
       <div class="container">
         {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

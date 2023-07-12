@@ -17,14 +17,14 @@
     <div class="container p-4">
         <div class="row justify-content-md-center">
             <div class="col-md-9">
-                <h1 class="text-danger">Create Blog</h1><hr>
+                <h1 class="text-danger">สร้างบล็อกใหม่</h1><hr>
                 <form id="form" action="{{ url('store/laravel') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label for="">Title</label>
                     <input type="text" class="form-control" name="title">
                     <span class="text-danger font-danger error-text title_error"></span>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="col-form-label">category</label>
                         <select class="custom-select " name="category">
                             <option selected="selected"></option>
@@ -39,6 +39,18 @@
                             <option>Laravel</option>
                         </select>
                         <span class="text-danger font-danger error-text category_error"></span>
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label class="col-form-label">category</label>
+                        <select class="custom-select " name="category" style="height:calc(3.25rem + 2px)">
+                            {{-- <option selected="selected">{{ $blog[0]->name_category }}</option> --}}
+                            <option selected="selected">Select Category</option>
+                            @foreach ($categories as $item)
+                                <option>{{ $item->name_category }}</option>
+                            @endforeach
+                        
+                        </select>
                     </div>
 
                     <label for="" class="mt-2">Description</label>
@@ -112,28 +124,6 @@
 
             });
         
-
-
-
-
-       
-
-        // function createData(){
-
-
-
-
-
-
-        //     swal.fire({
-        //         // position: 'top-end',
-        //         icon: 'success',
-        //         title: 'Your work has been saved',
-        //         showConfirmButton: false,
-        //         timer: 2000
-
-        //     })
-        // }
     </script>
 
     

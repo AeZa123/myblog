@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Blog;
+use App\Models\Category;
 use DataTables;
 
 
@@ -24,7 +25,45 @@ class LaravelBlogController extends Controller
 
     public function index(Request $request)
     {
-        $blogs = DB::table('blogs')->select('id','title','category','created_at')->paginate(15);
+
+        // if($request->ajax()){
+        //     dd('have request :', $request);
+        // }else{
+            
+        //     dd(" don't have request");
+        // }
+
+
+        // $test = Category::;
+        // $test = Blog::find(1);
+        // $test->categories();
+        if($request->ajax()){
+            //Blog HTML
+            $blogs = DB::table('blogs')
+                ->join('categories', 'category_id', '=', 'categories.id')
+                ->where('blogs.category_id', '1')
+                ->select('blogs.id', 'blogs.title', 'categories.name_category', 'blogs.created_at')
+                ->orderByDesc('blogs.created_at')
+                ->paginate(15);
+                
+                return view('dashboard.pages.laravel.show', compact('blogs'));
+            }else{
+                //blog All
+                $blogs = DB::table('blogs')
+                ->join('categories', 'category_id', '=', 'categories.id')
+                // ->where('blogs.category_id', '1')
+                ->orderByDesc('blogs.created_at')
+                ->select('blogs.id', 'blogs.title', 'categories.name_category', 'blogs.created_at')
+                ->paginate(15);
+
+
+            return view('dashboard.pages.laravel.show', compact('blogs'));
+        }
+
+        
+
+        // dd($test);
+        // $blogs = DB::table('blogs')->select('id','title','category_id','created_at')->paginate(15);
 
 
 
@@ -46,10 +85,10 @@ class LaravelBlogController extends Controller
 
     public function create()
     {
-       
-        
+        $categories = Category::all();
 
-        return view('dashboard.pages.laravel.form-blog');
+
+        return view('dashboard.pages.laravel.form-blog', compact('categories'));
     }
 
 
@@ -77,11 +116,18 @@ class LaravelBlogController extends Controller
 
         }
 
+
+        // ดึงเอา id ของ category มาเพื่อเอาไปบันทึกลงใน table blogs
+        $category_id = Category::where('name_category', $request->category)->select('id')->first();
+        $category_id = $category_id->id;
+        
+
         
         $data = array(
                 'title' => $request->title,
                 'description' => $request->description,
-                'category' => $request->category,
+                'category_id' => $category_id,
+                'user_id' => auth()->user()->id,
             );
     
         // DB::table('blogs')->insert($data);
@@ -101,9 +147,19 @@ class LaravelBlogController extends Controller
     public function edit($id)
     {
 
-        $blog = Blog::find($id);
-        // dd($blog);
-        return view('dashboard.pages.laravel.edit', compact('blog'));
+        // $blog = Blog::find($id);
+        $blog = DB::table('blogs')
+                ->join('users', 'user_id', '=', 'users.id')
+                ->join('categories', 'category_id', '=', 'categories.id')
+                ->where('blogs.id', $id)
+                ->select('blogs.*', 'users.name', 'categories.name_category')
+                ->get();
+
+        $categories = Category::all();
+        // dd($categories); 
+
+        // dd($blog[0]);
+        return view('dashboard.pages.laravel.edit', compact('blog', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -128,11 +184,16 @@ class LaravelBlogController extends Controller
 
         }
 
+        // ดึงเอา id ของ category มาเพื่อเอาไปบันทึกลงใน table blogs
+        $category_id = Category::where('name_category', $request->category)->select('id')->first();
+        $category_id = $category_id->id;
+
 
         $data = array(
             'title' => $request->title,
             'description' => $request->description,
-            'category' => $request->category
+            'category_id' => $category_id,
+            'user_id' => auth()->user()->id
         );
 
         $updated = Blog::where('id',$id)->update($data);
@@ -177,7 +238,12 @@ class LaravelBlogController extends Controller
         if($request->ajax())
         {
             $output="";
-            $blogs=DB::table('blogs')->where('title','LIKE','%'.$request->search."%")->select('id','title','category','created_at')->paginate(15);
+            $blogs=DB::table('blogs')
+                    ->join('categories', 'blogs.category_id', '=', 'categories.id')
+                    ->where('title','LIKE','%'.$request->search."%")
+                    ->select('blogs.id','blogs.title','categories.name_category','blogs.created_at')
+                    ->orderByDesc('blogs.created_at')
+                    ->paginate(15);
             
             // return $blogs;
             if($blogs)
@@ -187,7 +253,7 @@ class LaravelBlogController extends Controller
                     '<td>'.$blog->id.'</td>'.
                     // '<td>'.$blog->title.'</td>'.
                     '<td>'.'<a'.' '.'href="'.url('showBlog/'.$blog->id).'"target="_bank">'.$blog->title. '</a>'.'</td>'.
-                    '<td>'.$blog->category.'</td>'.
+                    '<td>'.$blog->name_category.'</td>'.
                     '<td>'. \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y').'</td>'.
                     '<td>'.
                         '<a'.' '.'href="'.url('blog/laravel/edit/'.$blog->id).'"title="Edit">'.

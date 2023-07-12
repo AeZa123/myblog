@@ -47,45 +47,44 @@ class HomeController extends Controller
     }
 
 
-    public function blogLavavel()
+    public function blogLavavel(Request $request)
     {
-
-        $rowperpage['rowperpage'] = $this->rowperpage;
-
-        $totalrecords['totalrecords'] = Blog::select('*')->count();
-
-        
+        // dd($request);
         $blogName = "Laravel";
 
-        $blogs['rowperpage'] = $this->rowperpage;
+        $blogs = DB::table('blogs')
+                ->join('categories', 'blogs.category_id', '=', 'categories.id')
+                ->join('users', 'blogs.user_id', '=', 'users.id')
+                ->where('categories.name_category', $blogName)
+                ->select('blogs.id', 'blogs.title', 'blogs.created_at', 'categories.name_category', 'users.name')
+                ->orderByDesc('blogs.created_at')
+                ->paginate(10);
+        // dd($blogs);
 
-        $blogs['totalrecords'] = Blog::select('*')->count();
- 
-        $blogs['blogs'] = Blog::where('category', 'Laravel')
-                 ->skip(0)
-                 ->take($this->rowperpage)
-                 ->select('id','title','created_at')
-                //  ->where('category', 'Laravel')
-                 ->orderByDesc('created_at')
-                 ->get();
-        //  dd($blogs);
+
+       
+        // $blogs = Blog::where('category', $blogName)->orderByDesc('created_at')->paginate(10);
+
+        if($request->ajax()){
+            $view = view('pages.blog.laravel.data', compact('blogName','blogs'))->render();
+            return response()->json(['html' => $view]);
+        }
          
-        return view('pages.blog.laravel.showList-blog-laravel', $blogs, compact('blogName'));
+        return view('pages.blog.laravel.showList-blog-laravel', compact('blogName','blogs'));
 
-        // return view('pages.blog.laravel.showList-blog-laravel', compact('blogs','blogName', 'titlePage',));
     }
 
     public function blogHtml(){
 
-        $blogs = DB::table('blogs')->where('category', 'HTML')->select('id','title','created_at')->orderByDesc('created_at')->paginate(10);
-        $blogName = "Learning HTML";
-        $titlePage = "Learning HTML";
+        $blogs = DB::table('blogs')->where('category', 'HTML')->select('id','title', 'category', 'created_at')->orderByDesc('created_at')->paginate(10);
+        $blogName = "HTML";
 
-        return view('pages.blog.laravel.showList-blog-laravel', compact('blogs','blogName', 'titlePage'));
+        return view('pages.blog.laravel.showList-blog-laravel', compact('blogs','blogName'));
     }
 
     public function showBlog($id) 
     {
+        // dd($id);
         $blog = DB::table('blogs')->where('id', $id)->get();
         // $date = $blog[0]->created_at->format('d-m-Y');
         // dd($date);
@@ -102,22 +101,45 @@ class HomeController extends Controller
         {
             if($request->search == ''){
                 $output="";
-                $blogs=DB::table('blogs')->where('category', $request->blogName)->select('id','title','category','created_at')->orderByDesc('created_at')->paginate(10);
+                $blogs=DB::table('blogs')
+                        ->join('categories', 'blogs.category_id', '=', 'categories.id')
+                        ->where('categories.name_category', $request->blogName)
+                        ->select('blogs.id','blogs.title','categories.name_category','blogs.created_at')
+                        ->orderByDesc('blogs.created_at')
+                        ->paginate(20);
                 
             }else{
                 $output="";
-                $blogs=DB::table('blogs')->where('title','LIKE','%'.$request->search."%")->select('id','title','category','created_at')->get();
+                $blogs=DB::table('blogs')
+                        ->join('categories', 'blogs.category_id', '=', 'categories.id')
+                        ->where('blogs.title','LIKE','%'.$request->search."%")   
+                        ->select('blogs.id','blogs.title','categories.name_category','blogs.created_at')
+                        ->get();
             }
             
             // return $blogs;
             if($blogs)
-            
-
             {
                 foreach($blogs as $key => $blog){
-                    $output.='<ul class="list-group">'.'<a class="a display-6"'.'href="'.url('showBlog/'.$blog->id).'"target="_bank">'.
-                    '<li class="list-group-item mb-2 li">'.$blog->title.'<p style="font-size: 15px;">สร้างเมื่อ'.\Carbon\Carbon::parse($blog->created_at)->format('d/m/Y').'</p>' .'</li>'.'</a>'.
-                    '</ul>';
+                    // $output.='<ul class="list-group">'.'<a class="a display-6"'.'href="'.url('showBlog/'.$blog->id).'"target="_bank">'.
+                    // '<li class="list-group-item mb-2 li">'.$blog->title.'<p style="font-size: 15px;">สร้างเมื่อ'.\Carbon\Carbon::parse($blog->created_at)->format('d/m/Y').'</p>' .'</li>'.'</a>'.
+                    // '</ul>';
+
+
+                    $output.='<div class="col-md-6 col-sm-12 ">'.
+                    '<a class="a"'.'href="'.url('showBlog/'.$blog->id).'"target="_bank">'.
+                        '<div class="card hover-blog">
+                            <div class="card-body">
+                              <h5 class="card-title">เรื่อง:'.' '. $blog->title.'</h5>
+                              <h6 class="card-subtitle mb-2">เนื้อหา:'.' '. $blog->name_category.'</h6>
+                              
+                              สร้างเมื่อ:'.' '.\Carbon\Carbon::parse($blog->created_at)->format('d/m/Y'). '<br>
+                
+                            </div>
+                        </div>
+                    </a>
+                    </div>';
+
                 }
                 return $output;
             }
@@ -126,54 +148,9 @@ class HomeController extends Controller
     }
 
 
-    //test 
 
-    public $rowperpage = 5;
-
-    public function lazyload(Request $request)
-    {
-       $data['rowperpage'] = $this->rowperpage;
-
-       $data['totalrecords'] = Blog::select('*')->count();
-
-       $data['blogs'] = Blog::select('*')
-                ->skip(0)
-                ->take($this->rowperpage)
-                ->get();
-        // dd($data);
-        
-        return view('pages.blog.laravel.test', $data);
-    }
-
-    //fetch data
-    public function getBlogs(Request $request)
-    {
-        $start = $request->start;
-
-        $records = Blog::select('*')
-                ->skip($start)
-                ->take($this->rowperpage)
-                ->get();
-
-        $html = "";
-
-        foreach($records as $record) {
-            // $id = $record["title"];
-            // $category = $record["category"];
-
-            $html .= '<ul class="list-group">'.'<a class="a display-6"'.'href="'.url('showBlog/'.$record->id).'"target="_bank">'.
-            '<li class="list-group-item mb-2 li">'.$record->title.'<p style="font-size: 15px;">สร้างเมื่อ'.\Carbon\Carbon::parse($record->created_at)->format('d/m/Y').'</p>' .'</li>'.'</a>'.
-            '</ul>';
-
-        }
-
-        $data['html'] = $html;
-
-        // dd($data);
-        return response()->json($data);
-
-    }
-
+   
+    
 
     
 

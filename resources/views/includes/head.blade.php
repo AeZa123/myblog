@@ -24,7 +24,7 @@
 {{-- <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre&family=Silkscreen&display=swap" rel="stylesheet"> --}}
 {{-- <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre&family=Silkscreen&display=swap" rel="stylesheet"> --}}
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
+
 <style>
     body{
         /* font-family: 'Gemunu Libre', sans-serif; */

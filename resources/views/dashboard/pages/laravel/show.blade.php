@@ -60,7 +60,7 @@ table blog laravel
                                             <tr>
                                                 <th scope="row">{{$blog->id}}</th>
                                                 <td><a href="{{url('showBlog/'.$blog->id)}}" target="_bank">{{$blog->title}} </a></td>
-                                                <td>{{$blog->category}}</td>
+                                                <td>{{$blog->name_category}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y')  }}</td>
                                                 <td>
                                                     {{-- <a href="{{url('blog/laravel/edit/'.$blog->id)}}">

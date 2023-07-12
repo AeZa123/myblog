@@ -3,6 +3,7 @@
 use App\Http\Controllers\dashboard\LaravelBlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\dashboard\MemberController;
 // use App\Http\Controllers\BlogLaravelController;
 use App\Http\Controllers\dashboard\DashboardController;
 
@@ -47,14 +48,20 @@ Route::get('search',[HomeController::class, 'search']);
 // private link
 
 //dashboard
-Route::get('dashboard',[DashboardController::class, 'index']);
-Route::get('table/laravel',[LaravelBlogController::class, 'index'])->name('table-laravel');
-Route::get('blog/laravel/edit/{id}',[LaravelBlogController::class, 'edit']);
-Route::get('table/laravel/search',[LaravelBlogController::class, 'search']);
-Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
-Route::post('store/laravel',[LaravelBlogController::class, 'store']);
-Route::post('update/laravel/{id}',[LaravelBlogController::class, 'update']);
-Route::post('blog/destroy',[LaravelBlogController::class, 'destroy'])->name('destroy');
+Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
+
+    //blogs
+    Route::get('table/laravel',[LaravelBlogController::class, 'index'])->name('table-laravel');
+    Route::get('blog/laravel/edit/{id}',[LaravelBlogController::class, 'edit']);
+    Route::get('table/laravel/search',[LaravelBlogController::class, 'search']);
+    Route::get('form/blog/laravel',[LaravelBlogController::class, 'create'])->name('laravelblog');
+    Route::post('store/laravel',[LaravelBlogController::class, 'store']);
+    Route::post('update/laravel/{id}',[LaravelBlogController::class, 'update']);
+    Route::post('blog/destroy',[LaravelBlogController::class, 'destroy'])->name('destroy');
+
+    //members
+    Route::get('/members', [MemberController::class, 'index'])->name('show.members');
+    Route::post('/member/store', [MemberController::class, 'stroe'])->name('store.member');
 
 
 // Route::get('form-blog',[BlogLaravelController::class, 'createBlog']);
@@ -68,5 +75,3 @@ Auth::routes();
 
 
 //test
-Route::get('/blogs/test/infinityScroll',[HomeController::class,'lazyload']);
-Route::get('/blogs/test/infinityScroll/test',[HomeController::class,'getBlogs'])->name('test');

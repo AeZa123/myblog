@@ -12,14 +12,15 @@
         <div class="row justify-content-md-center">
             <div class="col-md-9">
                 <h1 class="text-danger">Edit Blog</h1><hr>
-                <form id="form" action="{{ url('update/laravel/'.$blog->id) }}" method="post" enctype="multipart/form-data">
+                <form id="form" action="{{ url('update/laravel/'.$blog[0]->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <label for="">Title</label>
-                    <input type="text" class="form-control" value="{{$blog->title}}" name="title" required>
-                    <div class="form-group">
+                    <input type="text" class="form-control" value="{{$blog[0]->title}}" name="title" required>
+
+                    {{-- <div class="form-group">
                         <label class="col-form-label">category</label>
                         <select class="custom-select " name="category">
-                            <option selected="selected">{{ $blog->category }}</option>
+                            <option selected="selected">{{ $blog[0]->name_category }}</option>
                             <option>No category</option>
                             <option>HTML</option>
                             <option>CSS</option>
@@ -31,9 +32,23 @@
                             <option>Php</option>
                             <option>Laravel</option>
                         </select>
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label class="col-form-label">category</label>
+                        <select class="custom-select " name="category">
+                            <option selected="selected">{{ $blog[0]->name_category }}</option>
+                            <option>No category</option>
+                            @foreach ($categories as $item)
+                                <option>{{ $item->name_category }}</option>
+                            @endforeach
+                        
+                        </select>
                     </div>
+                        
+
                     <label for="" class="mt-2">Description</label>
-                    <textarea name="description" id="summernote" cols="30" rows="10" required>{{$blog->description}}</textarea>
+                    <textarea name="description" id="summernote" cols="30" rows="10" required>{{$blog[0]->description}}</textarea>
                     <div style="text-align: center">
                         <button type="submit" class="btn btn-warning mt-3">Edit</button>
                         <a href="{{ url('/') }}" type="" class="btn btn-danger mt-3">Cancel</a>

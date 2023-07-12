@@ -25,7 +25,8 @@ class BlogFactory extends Factory
         return [
             'title' => $this->faker->word(),
             'description' => fake()->paragraph(),
-            'category' => 'laravel',
+            'category_id' => $this->faker->numberBetween(1, 6),
+            'user_id' => '1',
             'created_at' => fake()->date(),
             
         ];

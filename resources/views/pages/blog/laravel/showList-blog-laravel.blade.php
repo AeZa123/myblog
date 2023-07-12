@@ -7,10 +7,13 @@ Learning {{ $blogName }}
 @section('content')
 
 <style>
-    /* .a{
+    .a{
        
         color: rgb(0, 0, 0);
-    } */
+    }
+    .a:hover{
+        color: rgb(0, 0, 0);
+    }
     .li{
         background:  rgb(255, 255, 255); 
         border: 1px solid #ebebeb;
@@ -27,22 +30,72 @@ Learning {{ $blogName }}
         background: rgb(1, 90, 1);
         color: rgb(1, 90, 1);
     } */
+    body{
+        background: rgb(250, 250, 250);
+    }
+
+
+.card {
+  position: relative;
+  margin: 15px auto;
+  /* width: 450px; */
+  /* padding: 20px; */
+  /* box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2); */
+  border:1px solid #ebebeb
+  border-radius: 3px;
+  /* border: 0; */
+}
+
+.hover-blog{
+  color: #151515;
+  background: #ffffff;
+  transition: ease-in-out 0.3s;
+}
+
+.hover-blog:hover{
+  border-color: #fff;
+  /* background: linear-gradient(180deg, #5ce477 0%, #4faa25 100%); */
+  box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  /* color: #c2ffd9; */
+}
+
+
+.scrollup {
+    width:40px;
+	height:40px;
+	opacity:0.3;
+	position:fixed;
+	bottom:50px;
+	right:100px;
+	display:none;
+	text-indent:-9999px;
+	background: url(http://seenual.com/wp-content/uploads/2016/03/icon_top.png) no-repeat;
+}
+
+
+
 </style>
 
 
-{{-- <div class="jumbotron jumbotron-fluid mt-5">
+<div class="jumbotron jumbotron-fluid mt-5">
     <div class="container">
       
       <h1 class="display-4 text-center" style="font-weight: bold"><strong>Learning {{$blogName}}</strong> </h1>
 
     </div>
-</div> --}}
+</div>
 <input id="blogName" type="hidden" value="{{$blogName}}">
 
 
+
+
 <div class="container">
+
+    {{--  --}}
     <div class="row justify-content-md-center">
         <div class="col-md-9">
+
             <div class="text-center mt-3 mb-3">
                 <label for="" style="display: block; font-size: 2rem">ค้นหา</label>
                 <input style="width: 60%; display:revert;" type="text" class="form-control" id="search" name="search" placeholder="Keyword....">
@@ -52,44 +105,88 @@ Learning {{ $blogName }}
     
            
             <h5 class="text-center mb-4" id="change-text">รายการล่าสุด</h5>
+            {{--  --}}
+        </div>
             
       
 
-            <div class="list" >
-            @foreach ($blogs as $blog)
-               
-                    <ul class="list-group" >
-                        <a  class="a display-6 " href="{{url('showBlog/'.$blog->id)}}" target="_bank">
-                            <li class="list-group-item mb-2 li rounded ">{{$blog->title}} <p style="font-size: 15px;">สร้างเมื่อ {{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y')  }}</p> </li>
-                        </a>
-                    </ul>
-            @endforeach
+            <div   >
+                <div class="row list" id="post-data">
+                @include('pages.blog.laravel.data')
+                </div>
             </div>
             <br>
 
-            {{-- pagination --}}
-            {{-- <div style="float: right">
-                {{ $blogs->links() }}
-            </div> --}}
+            <div class="ajax-load text-center" style="display: none;">
+                <p><img src="{{asset('assets/images/loader/loader1.gif')}}" width="50" height="50" alt=""> รอสักครู่</p>
+            </div>
 
-        </div>
+          
+
+        {{-- </div> --}}
     </div>
 
-    <div class="ajax-load text-center" style="display:none">
+    {{-- <div class="ajax-load text-center" style="display:none">
         <i class="mdi mdi-48px mdi-spin mdi-loading"></i>
-    </div>
-
-    <input type="hidden" id="start" value="0">
-    <input type="hidden" id="rowperpage" value="{{$rowperpage}}">
-    <input type="hidden" id="totalrecords" value="{{$totalrecords;}}">
+    </div> --}}
 
 </div>
+
+  
+<a href="#" class="scrollup">Scroll</a>
+
+
+
+<script>
+    function loadMoreData(page){
+        $.ajax({
+            url:'?page=' + page,
+            type:'get',
+            beforeSend: function(){
+                $(".ajax-load").show();
+            }
+        })
+        .done(function(data){
+            if(data.html == ""){
+                $('.ajax-load').html("ไม่มีเนื้อหาที่จะแสดงแล้ว");
+                return;
+            }else{
+
+                setTimeout(() => {
+                    
+                    
+                    $('.ajax-load').hide();
+                                        
+                    $('#post-data').append(data.html);
+                }, 1000);
+            }
+            
+        })
+        .fail(function(jqXHR,ajaxOptions,thrownError){
+            alert('Server not responding...');
+        });
+    }
+
+    var page = 1;
+    $(window).scroll(function(){
+        var a = $(window).scrollTop() + $(window).height() + 10;
+        var b = $(document).height();
+        // console.log(a);
+        // console.log(b);
+
+        if($(window).scrollTop() + $(window).height() + 10 >= $(document).height()){
+            // alert('ahahahah')
+            page++;
+            loadMoreData(page);
+        }
+    });
+</script>
 
 <script>
     $('#search').on('keyup',function(){
         $value=$(this).val();
         var blogName = $("#blogName").val();
-        console.log(blogName);
+        // console.log(blogName);
         $.ajax({
             type : 'get',
             // url : '{{URL::to('table/laravel/search')}}',
@@ -106,97 +203,35 @@ Learning {{ $blogName }}
                 }else{
                     $('#change-text').html('รายการล่าสุด')
                 }
-                console.log(data);
+                // console.log(data);
             
             }
         });
     })
-
-
-    // fetch blog
-    checkWindowSize();
-
-    function checkWindowSize(){
-       
-        if($(window).height() >= $(document).height()){
-            
-            fetchData();
-           
-            
-        }
-    }
-
-
-    function fetchData(){
-        var start = Number($('#start').val());
-        var allcount = Number($('#totalrecords').val());    
-        var rowperpage = Number($('#rowperpage').val());
-        start = start + rowperpage;    
-
-
-        if(start <= allcount){
-            $('#start').val(start);
-            
-
-            $.ajax({
-                url:"{{route('test')}}",
-                data: {start:start},
-                dataType:'json',
-                success: function(response){
-
-                    //add
-                    $(".list-group:last").after(response.html).show().fadeIn("slow")
-
-                    //check
-                    checkWindowSize();
-                }
-            });
-            
-        }
-       
-
-    }
-
-    $(document).on('touchmove', onScroll);
-
-        function onScroll(){
-            if($(window).scrollTop() > $(document).height() - $(window).height()-100) {
-    
-                fetchData();
-            }
-        }
-
-        $(window).scroll(function(){
-            var position = $(window).scrollTop();
-            var bottom = $(document).height() - $(window).height();
-
-            if(position == bottom){
-                // $('.ajax-load').show();
-                $('.ajax-load').show();
-                
-                // fetchData();
-                
-
-                setTimeout(() => {
-                    fetchData();
-                    $('.ajax-load').hide();
-                                    
-                }, 500);
-                
-
-            }
-            
-        })
-
-
 </script>
 
 
-<script>
-    
-
-
+<script type="text/javascript">
+	$(document).ready(function(){
+		// <!--Smooth Page Scroll to Top-->
+			$(window).scroll(function(){
+				if ($(this).scrollTop() > 100) {
+					$('.scrollup').fadeIn();
+				} else {
+					$('.scrollup').fadeOut();
+				}
+			}); 
+	 
+			$('.scrollup').click(function(){
+				$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			});
+		// <!--//-->
+		
+	});
 </script>
+
+
 
 
 

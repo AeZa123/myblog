@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        
 
-        Blog::factory(100)->create();
+        // php artisan db:seed
+        Blog::factory(5000)->create();
     }
 }
