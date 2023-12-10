@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
         
 
         // php artisan db:seed
-        Blog::factory(5000)->create();
+        Blog::factory(10000)->create();
     }
 }

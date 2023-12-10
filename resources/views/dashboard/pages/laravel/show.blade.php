@@ -164,7 +164,7 @@ table blog laravel
                             data:{
                                 id:id
                             },
-                            dataType:'json',
+                            dataType:'json', 
                             success:function(data){
                                 if(data.code == 1){
 

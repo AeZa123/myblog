@@ -65,6 +65,8 @@ class HomeController extends Controller
        
         // $blogs = Blog::where('category', $blogName)->orderByDesc('created_at')->paginate(10);
 
+
+        // โหลดข้อมูลมาใส่ในไฟล์ data.blade.php เก็บในตัวแปร $view จะได้เป็น html ออกมา
         if($request->ajax()){
             $view = view('pages.blog.laravel.data', compact('blogName','blogs'))->render();
             return response()->json(['html' => $view]);
@@ -74,10 +76,23 @@ class HomeController extends Controller
 
     }
 
-    public function blogHtml(){
+    public function blogHtml(Request $request){
 
-        $blogs = DB::table('blogs')->where('category', 'HTML')->select('id','title', 'category', 'created_at')->orderByDesc('created_at')->paginate(10);
         $blogName = "HTML";
+
+        $blogs = DB::table('blogs')
+        ->join('categories', 'blogs.category_id', '=', 'categories.id')
+        ->join('users', 'blogs.user_id', '=', 'users.id')
+        ->where('categories.name_category', $blogName)
+        ->select('blogs.id', 'blogs.title', 'blogs.created_at', 'categories.name_category', 'users.name')
+        ->orderByDesc('blogs.created_at')
+        ->paginate(10);
+
+
+        if($request->ajax()){
+            $view = view('pages.blog.laravel.data', compact('blogName','blogs'))->render();
+            return response()->json(['html' => $view]);
+        }
 
         return view('pages.blog.laravel.showList-blog-laravel', compact('blogs','blogName'));
     }
